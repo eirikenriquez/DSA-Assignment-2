@@ -101,7 +101,8 @@ public class BinaryTree<E extends Comparable> {
     }
 
     /**
-     *
+     * This method reverses the order of the tree with a time complexity of
+     * O(n).
      */
     public void reverseOrder() {
 
