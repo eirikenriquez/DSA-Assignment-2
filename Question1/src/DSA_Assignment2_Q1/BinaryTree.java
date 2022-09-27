@@ -115,9 +115,9 @@ public class BinaryTree<E extends Comparable> {
         }
 
         // swap
-        Node temp = root.left;
-        root.left = root.right;
-        root.right = temp;
+        Node temp = current.left;
+        current.left = current.right;
+        current.right = temp;
 
         reverseOrder(current.left);
         reverseOrder(current.right);

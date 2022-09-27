@@ -21,11 +21,11 @@ public class Test {
         s4.key = s4.mark;
         s5.key = s5.mark;
 
-        tree.add(s4);
-        tree.add(s1);
-        tree.add(s3);
-        tree.add(s2);
-        tree.add(s5);
+        tree.add(s4);           //                   4
+        tree.add(s1);           //           1           5
+        tree.add(s3);           //                3
+        tree.add(s2);           //             2
+        tree.add(s5);           //
 
         tree.traversal();
 
