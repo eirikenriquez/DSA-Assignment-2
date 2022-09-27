@@ -21,7 +21,7 @@ public class Controller implements ActionListener {
 
         switch (action) {
             case "Load":
-
+                panel.loadFile();
                 break;
             case "Save":
 

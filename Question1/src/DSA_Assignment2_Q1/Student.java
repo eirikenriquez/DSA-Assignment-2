@@ -11,7 +11,7 @@ public class Student<E extends Comparable> implements Comparable<Student> {
     public int mark;
 
     public Student(String name, int mark) {
-        this.key = null;
+        this.key = (E) name; // default setting
         this.name = name;
         this.mark = mark;
     }

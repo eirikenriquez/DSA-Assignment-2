@@ -1,16 +1,59 @@
 package DSA_Assignment2_Q1;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
+
 /**
  *
  * @author eirik
  */
 public class Panel extends javax.swing.JPanel {
 
+    private final Controller controller;
+    private final FileIO fileIO;
+    private String fileContents;
+
     /**
      * Creates new form Panel
      */
     public Panel() {
+        this.controller = new Controller(this);
+        this.fileIO = new FileIO();
+        fileContents = "";
         initComponents();
+        addListeners();
+    }
+
+    private void addListeners() {
+        loadButton.addActionListener(controller);
+        saveButton.addActionListener(controller);
+        sortButton.addActionListener(controller);
+        searchButton.addActionListener(controller);
+    }
+
+    public void loadFile() {
+        JFileChooser chooser = new JFileChooser(new File("./res"));
+        chooser.setFileFilter(new FileNameExtensionFilter("Text File (\".txt\")", "txt"));
+        int option = chooser.showOpenDialog(null);
+
+        // if user chooses a file
+        if (option == JFileChooser.APPROVE_OPTION) {
+            try {
+                fileContents = fileIO.readFile(chooser.getSelectedFile());
+                updateResultText();
+            } catch (FileNotFoundException ex) {
+                System.out.println("Error: " + ex.toString());
+            }
+        }
+    }
+
+    private void updateResultText() {
+        this.resultText.setText(fileContents);
     }
 
     /**
@@ -31,18 +74,8 @@ public class Panel extends javax.swing.JPanel {
         resultText = new javax.swing.JTextArea();
 
         loadButton.setText("Load");
-        loadButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                loadButtonActionPerformed(evt);
-            }
-        });
 
         saveButton.setText("Save");
-        saveButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                saveButtonActionPerformed(evt);
-            }
-        });
 
         sortButton.setText("Sort");
 
@@ -89,14 +122,6 @@ public class Panel extends javax.swing.JPanel {
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
-
-    private void loadButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_loadButtonActionPerformed
-
-    private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_saveButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton loadButton;
