@@ -56,7 +56,6 @@ public class Model {
     private void addStudent(String line) {
         // exit method if the line doesn't meet the format
         if (!line.contains(", ")) {
-            System.out.println("not add to tree");
             return;
         }
 
@@ -64,7 +63,6 @@ public class Model {
 
         // exit method if the line doesn't meet the format
         if (studentInfo.length != 2) {
-            System.out.println("not add to tree");
             return;
         }
 
@@ -74,9 +72,7 @@ public class Model {
         try {
             int mark = Integer.parseInt(studentInfo[1]);
             this.studentList.add(new Student(name, mark));
-            System.out.println("added to tree");
         } catch (NumberFormatException ex) {
-            System.out.println("not add to tree");
         }
 
     }
@@ -89,5 +85,12 @@ public class Model {
         } catch (IOException ex) {
             System.out.println("ERror: " + ex.toString());
         }
+    }
+
+    /**
+     * This reverses the binary tree and updates the file.
+     */
+    public void sort(String fileName) {
+
     }
 }

@@ -64,6 +64,10 @@ public class Panel extends javax.swing.JPanel {
         this.studentsText.setText(fileContents);
     }
 
+    public void sortList() {
+        this.model.sort();
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

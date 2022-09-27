@@ -33,5 +33,6 @@ public class Test {
         tree.reverseOrder();
         System.out.println("");
         tree.traversal();
+
     }
 }
