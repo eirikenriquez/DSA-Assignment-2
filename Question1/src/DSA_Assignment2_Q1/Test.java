@@ -1,6 +1,7 @@
 package DSA_Assignment2_Q1;
 
 /**
+ * This class is only used to test the binary tree.
  *
  * @author eirik
  */
