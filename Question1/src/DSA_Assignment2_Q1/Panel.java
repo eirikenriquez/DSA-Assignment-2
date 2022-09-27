@@ -2,10 +2,7 @@ package DSA_Assignment2_Q1;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFileChooser;
-import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
@@ -15,7 +12,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 public class Panel extends javax.swing.JPanel {
 
     private final Controller controller;
-    private final FileIO fileIO;
+    private final Model model;
     private String fileContents;
 
     /**
@@ -23,7 +20,7 @@ public class Panel extends javax.swing.JPanel {
      */
     public Panel() {
         this.controller = new Controller(this);
-        this.fileIO = new FileIO();
+        this.model = new Model();
         fileContents = "";
         initComponents();
         addListeners();
@@ -44,16 +41,27 @@ public class Panel extends javax.swing.JPanel {
         // if user chooses a file
         if (option == JFileChooser.APPROVE_OPTION) {
             try {
-                fileContents = fileIO.readFile(chooser.getSelectedFile());
-                updateResultText();
+                fileContents = model.readFile(chooser.getSelectedFile());
+                setStudentsText();
             } catch (FileNotFoundException ex) {
                 System.out.println("Error: " + ex.toString());
             }
         }
     }
 
-    private void updateResultText() {
-        this.resultText.setText(fileContents);
+    public void saveFile() {
+        JFileChooser chooser = new JFileChooser(new File("./res"));
+        chooser.setFileFilter(new FileNameExtensionFilter("Text File (\".txt\")", "txt"));
+        int option = chooser.showSaveDialog(null);
+
+        if (option == JFileChooser.APPROVE_OPTION) {
+            String fileName = chooser.getSelectedFile().getPath();
+            model.writeFile(studentsText.getText(), fileName);
+        }
+    }
+
+    private void setStudentsText() {
+        this.studentsText.setText(fileContents);
     }
 
     /**
@@ -71,7 +79,7 @@ public class Panel extends javax.swing.JPanel {
         searchButton = new javax.swing.JButton();
         searchText = new javax.swing.JTextField();
         resultScrollPane = new javax.swing.JScrollPane();
-        resultText = new javax.swing.JTextArea();
+        studentsText = new javax.swing.JTextArea();
 
         loadButton.setText("Load");
 
@@ -81,9 +89,9 @@ public class Panel extends javax.swing.JPanel {
 
         searchButton.setText("Search");
 
-        resultText.setColumns(20);
-        resultText.setRows(5);
-        resultScrollPane.setViewportView(resultText);
+        studentsText.setColumns(20);
+        studentsText.setRows(5);
+        resultScrollPane.setViewportView(studentsText);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -126,10 +134,10 @@ public class Panel extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton loadButton;
     private javax.swing.JScrollPane resultScrollPane;
-    private javax.swing.JTextArea resultText;
     private javax.swing.JButton saveButton;
     private javax.swing.JButton searchButton;
     private javax.swing.JTextField searchText;
     private javax.swing.JButton sortButton;
+    private javax.swing.JTextArea studentsText;
     // End of variables declaration//GEN-END:variables
 }
