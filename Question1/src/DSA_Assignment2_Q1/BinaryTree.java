@@ -1,6 +1,9 @@
-package dsa.assignment.pkg2;
+package DSA_Assignment2_Q1;
 
 /**
+ * This is the binary tree class.Some of the methods in this class uses the name
+ * "current" instead of "root" for recursion. This is to differentiate the
+ * sub-roots from the main root.
  *
  * @author eirik
  */
@@ -57,26 +60,15 @@ public class BinaryTree<E extends Comparable> {
     }
 
     /**
-     * This method finds and returns the Node in the binary tree that contains
-     * the data given by the argument. This method returns the root Node if it
-     * contains the same data as the argument. Otherwise, it runs a private
-     * recursive method that traverses through the tree to find the data.
+     * This method calls a private method that uses recursion to find the Node
+     * that contains the argument data.
      *
      * @param data This is a comparable object that is stored in a Node.
      * @return Returns the data object if it finds the Node. Otherwise, returns
      * null.
      */
     public E findNode(E data) {
-        if (root == null) {
-            return null;
-        }
-
-        if (root.data.compareTo(data) == 0) {
-            return data;
-        } else {
-            return findNode(data, root);
-        }
-
+        return findNode(data, root);
     }
 
     /**
@@ -91,10 +83,12 @@ public class BinaryTree<E extends Comparable> {
     private E findNode(E toFind, Node current) {
         if (current == null) {
             return null;
-        } else if (current.data.compareTo(toFind) > 0) {
-            findNode(toFind, current.left);
+        }
+
+        if (current.data.compareTo(toFind) > 0) {
+            return findNode(toFind, current.left);
         } else if (current.data.compareTo(toFind) < 0) {
-            findNode(toFind, current.right);
+            return findNode(toFind, current.right);
         } else {
             return toFind;
         }
@@ -105,14 +99,57 @@ public class BinaryTree<E extends Comparable> {
      * O(n).
      */
     public void reverseOrder() {
+        reverseOrder(root);
+    }
+
+    /**
+     * This method uses recursion to reverse the order of the binary tree. This
+     * method swaps the left and right nodes for each Node. The time complexity
+     * is O(n) as it traverses through each Node only once.
+     *
+     * @param current
+     */
+    private void reverseOrder(Node current) {
+        if (current == null) {
+            return;
+        }
+
+        // swap
+        Node temp = root.left;
+        root.left = root.right;
+        root.right = temp;
+
+        reverseOrder(current.left);
+        reverseOrder(current.right);
 
     }
 
     /**
-     *
+     * This calls the private method to traverse and print the binary search
+     * tree.
      */
     public void traversal() {
+        traversal(root);
+    }
 
+    /**
+     * This method uses recursion to traverse through the binary search tree and
+     * prints the details of each Node. This traverses in-order:
+     * left-root-right.
+     *
+     * @param current This is the current Node that is used as the key while
+     * traversing through the tree.
+     */
+    private void traversal(Node current) {
+        if (current.left != null) {
+            traversal(current.left);
+        }
+
+        System.out.println(root.data);
+
+        if (current.right != null) {
+            traversal(current.right);
+        }
     }
 
 }

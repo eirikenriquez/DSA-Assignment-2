@@ -1,4 +1,4 @@
-package dsa.assignment.pkg2;
+package DSA_Assignment2_Q1;
 
 /**
  *
