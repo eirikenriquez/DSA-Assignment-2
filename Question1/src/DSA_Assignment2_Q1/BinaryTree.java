@@ -145,7 +145,7 @@ public class BinaryTree<E extends Comparable> {
             traversal(current.left);
         }
 
-        System.out.println(root.data);
+        System.out.println(current.data);
 
         if (current.right != null) {
             traversal(current.right);
