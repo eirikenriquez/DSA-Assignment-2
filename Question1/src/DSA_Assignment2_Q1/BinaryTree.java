@@ -9,10 +9,12 @@ package DSA_Assignment2_Q1;
  */
 public class BinaryTree<E extends Comparable> {
 
+    public String treeString;
     public int size;
     private Node root;
 
     public BinaryTree() {
+        this.treeString = "";
         this.size = 0;
         this.root = null;
     }
@@ -30,6 +32,7 @@ public class BinaryTree<E extends Comparable> {
 
         if (root == null) {
             root = newNode;
+            size++;
         } else {
             add(newNode, root);
         }
@@ -47,12 +50,14 @@ public class BinaryTree<E extends Comparable> {
         if (current.compareTo(newNode) > 0) {
             if (current.left == null) {
                 current.left = newNode;
+                size++;
             } else {
                 add(newNode, current.left);
             }
         } else {
             if (current.right == null) {
                 current.right = newNode;
+                size++;
             } else {
                 add(newNode, current.right);
             }
@@ -130,6 +135,7 @@ public class BinaryTree<E extends Comparable> {
      */
     public void traversal() {
         traversal(root);
+        System.out.println(treeString);
     }
 
     /**
@@ -145,7 +151,7 @@ public class BinaryTree<E extends Comparable> {
             traversal(current.left);
         }
 
-        System.out.println(current.data);
+        treeString += current.data.toString() + '\n';
 
         if (current.right != null) {
             traversal(current.right);

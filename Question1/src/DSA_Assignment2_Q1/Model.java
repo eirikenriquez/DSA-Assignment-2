@@ -17,25 +17,20 @@ public class Model {
     public BinaryTree studentList;
 
     /**
-     * This method reads a text file and returns a string containing the
-     * contents of the file.
+     * This method reads a text file and populates the binary tree.
      *
      * @param file This is a text file.
-     * @return The contents of the text file.
      * @throws FileNotFoundException
      */
-    public String readFile(File file) throws FileNotFoundException {
+    public void readFile(File file) throws FileNotFoundException {
         this.studentList = new BinaryTree<Student>();
-        String str = "";
 
         try {
             BufferedReader br = new BufferedReader(new FileReader(file));
             String line = br.readLine();
 
             while (line != null) {
-                str += line;
                 addStudent(line);
-                str += '\n';
                 line = br.readLine();
             }
 
@@ -43,8 +38,6 @@ public class Model {
         } catch (IOException ex) {
             System.out.println("Error: " + ex.toString());
         }
-
-        return str;
     }
 
     /**
@@ -68,10 +61,11 @@ public class Model {
 
         String name = studentInfo[0];
 
-        // check if mark is an integer.
+        // check if mark is an integer and add student into the binary tree.
         try {
             int mark = Integer.parseInt(studentInfo[1]);
-            this.studentList.add(new Student(name, mark));
+            Student student = new Student(name, mark);
+            studentList.add(student);
         } catch (NumberFormatException ex) {
         }
 
@@ -83,8 +77,16 @@ public class Model {
             bw.write(toWrite);
             bw.close();
         } catch (IOException ex) {
-            System.out.println("ERror: " + ex.toString());
+            System.out.println("Error: " + ex.toString());
         }
+    }
+
+    public String getStudentListString() {
+        if (studentList.size <= 0) {
+            return "Error: Invalid Students List File!";
+        }
+        this.studentList.traversal();
+        return studentList.treeString;
     }
 
     /**

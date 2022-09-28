@@ -13,7 +13,6 @@ public class Panel extends javax.swing.JPanel {
 
     private final Controller controller;
     private final Model model;
-    private String fileContents;
 
     /**
      * Creates new form Panel
@@ -21,7 +20,6 @@ public class Panel extends javax.swing.JPanel {
     public Panel() {
         this.controller = new Controller(this);
         this.model = new Model();
-        fileContents = "";
         initComponents();
         addListeners();
     }
@@ -41,8 +39,8 @@ public class Panel extends javax.swing.JPanel {
         // if user chooses a file
         if (option == JFileChooser.APPROVE_OPTION) {
             try {
-                fileContents = model.readFile(chooser.getSelectedFile());
-                setStudentsText();
+                model.readFile(chooser.getSelectedFile());
+                setStudentsText(model.getStudentListString());
             } catch (FileNotFoundException ex) {
                 System.out.println("Error: " + ex.toString());
             }
@@ -60,12 +58,8 @@ public class Panel extends javax.swing.JPanel {
         }
     }
 
-    private void setStudentsText() {
-        this.studentsText.setText(fileContents);
-    }
-
-    public void sortList() {
-        this.model.sort();
+    private void setStudentsText(String str) {
+        this.studentsText.setText(str);
     }
 
     /**

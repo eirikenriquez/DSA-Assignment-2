@@ -27,7 +27,6 @@ public class Controller implements ActionListener {
                 panel.saveFile();
                 break;
             case "Sort":
-                panel.sortList();
                 break;
             case "Search":
 
