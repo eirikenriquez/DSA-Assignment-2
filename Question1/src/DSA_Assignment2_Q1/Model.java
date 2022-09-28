@@ -52,13 +52,7 @@ public class Model {
             return;
         }
 
-        String[] studentInfo = line.split(", ");
-
-        // exit method if the line doesn't meet the format
-        if (studentInfo.length != 2) {
-            return;
-        }
-
+        String[] studentInfo = line.split(", ", 2);
         String name = studentInfo[0];
 
         // check if mark is an integer and add student into the binary tree.
@@ -82,6 +76,7 @@ public class Model {
     }
 
     public String getStudentListString() {
+        // error handling
         if (studentList.size <= 0) {
             return "Error: Invalid Students List File!";
         }
