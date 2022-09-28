@@ -26,10 +26,13 @@ public class Controller implements ActionListener {
             case "Save":
                 panel.saveFile();
                 break;
+            case "Set Key":
+                panel.setKey();
+                break;
             case "Sort":
+                panel.sort();
                 break;
             case "Search":
-
                 break;
             default:
                 break;

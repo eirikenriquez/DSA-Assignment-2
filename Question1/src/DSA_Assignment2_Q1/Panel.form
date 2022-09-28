@@ -19,7 +19,7 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="resultScrollPane" pref="376" max="32767" attributes="0"/>
+                  <Component id="studentsTextScrollPane" pref="376" max="32767" attributes="0"/>
                   <Group type="102" alignment="1" attributes="0">
                       <Component id="searchText" max="32767" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -31,6 +31,8 @@
                       <Component id="saveButton" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
                       <Component id="sortButton" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Component id="keyButton" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -44,6 +46,7 @@
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="loadButton" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="saveButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="keyButton" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="sortButton" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -52,7 +55,7 @@
                   <Component id="searchText" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Component id="resultScrollPane" pref="287" max="32767" attributes="0"/>
+              <Component id="studentsTextScrollPane" pref="287" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -69,9 +72,9 @@
         <Property name="text" type="java.lang.String" value="Save"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JButton" name="sortButton">
+    <Component class="javax.swing.JButton" name="keyButton">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Sort"/>
+        <Property name="text" type="java.lang.String" value="Set Key"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="searchButton">
@@ -81,7 +84,12 @@
     </Component>
     <Component class="javax.swing.JTextField" name="searchText">
     </Component>
-    <Container class="javax.swing.JScrollPane" name="resultScrollPane">
+    <Container class="javax.swing.JScrollPane" name="studentsTextScrollPane">
+      <Properties>
+        <Property name="viewportView" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+          <ComponentRef name="null"/>
+        </Property>
+      </Properties>
       <AuxValues>
         <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
       </AuxValues>
@@ -96,5 +104,10 @@
         </Component>
       </SubComponents>
     </Container>
+    <Component class="javax.swing.JButton" name="sortButton">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Sort"/>
+      </Properties>
+    </Component>
   </SubComponents>
 </Form>

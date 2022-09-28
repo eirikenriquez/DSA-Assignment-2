@@ -3,6 +3,7 @@ package DSA_Assignment2_Q1;
 import java.io.File;
 import java.io.FileNotFoundException;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
@@ -13,6 +14,7 @@ public class Panel extends javax.swing.JPanel {
 
     private final Controller controller;
     private final Model model;
+    private String selectedList;
 
     /**
      * Creates new form Panel
@@ -20,6 +22,7 @@ public class Panel extends javax.swing.JPanel {
     public Panel() {
         this.controller = new Controller(this);
         this.model = new Model();
+        this.selectedList = SortOption.NAME.nameOfKey; // default value
         initComponents();
         addListeners();
     }
@@ -27,6 +30,7 @@ public class Panel extends javax.swing.JPanel {
     private void addListeners() {
         loadButton.addActionListener(controller);
         saveButton.addActionListener(controller);
+        keyButton.addActionListener(controller);
         sortButton.addActionListener(controller);
         searchButton.addActionListener(controller);
     }
@@ -39,8 +43,7 @@ public class Panel extends javax.swing.JPanel {
         // if user chooses a file
         if (option == JFileChooser.APPROVE_OPTION) {
             try {
-                model.readFile(chooser.getSelectedFile());
-                setStudentsText(model.getStudentListString());
+                setStudentsText(model.readFile(chooser.getSelectedFile()));
             } catch (FileNotFoundException ex) {
                 System.out.println("Error: " + ex.toString());
             }
@@ -62,6 +65,23 @@ public class Panel extends javax.swing.JPanel {
         this.studentsText.setText(str);
     }
 
+    public void setKey() {
+        String[] sortOptions = new String[SortOption.NUMBER_OF_OPTIONS];
+        sortOptions[0] = SortOption.NAME.nameOfKey;
+        sortOptions[1] = SortOption.MARK.nameOfKey;
+
+        selectedList = (String) JOptionPane.showInputDialog(null, "Sort Options", "Sort Options", JOptionPane.PLAIN_MESSAGE, null, sortOptions, null);
+
+        if (selectedList != null) {
+            setStudentsText(model.getSelectedList(selectedList));
+        }
+    }
+
+    public void sort() {
+        model.sort();
+        setStudentsText(model.getSelectedList(selectedList));
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -73,23 +93,28 @@ public class Panel extends javax.swing.JPanel {
 
         loadButton = new javax.swing.JButton();
         saveButton = new javax.swing.JButton();
-        sortButton = new javax.swing.JButton();
+        keyButton = new javax.swing.JButton();
         searchButton = new javax.swing.JButton();
         searchText = new javax.swing.JTextField();
-        resultScrollPane = new javax.swing.JScrollPane();
+        studentsTextScrollPane = new javax.swing.JScrollPane();
         studentsText = new javax.swing.JTextArea();
+        sortButton = new javax.swing.JButton();
 
         loadButton.setText("Load");
 
         saveButton.setText("Save");
 
-        sortButton.setText("Sort");
+        keyButton.setText("Set Key");
 
         searchButton.setText("Search");
 
+        studentsTextScrollPane.setViewportView(null);
+
         studentsText.setColumns(20);
         studentsText.setRows(5);
-        resultScrollPane.setViewportView(studentsText);
+        studentsTextScrollPane.setViewportView(studentsText);
+
+        sortButton.setText("Sort");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -98,7 +123,7 @@ public class Panel extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(resultScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 376, Short.MAX_VALUE)
+                    .addComponent(studentsTextScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 376, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(searchText)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -108,7 +133,9 @@ public class Panel extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(saveButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(sortButton)))
+                        .addComponent(sortButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(keyButton)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -118,24 +145,26 @@ public class Panel extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(loadButton)
                     .addComponent(saveButton)
+                    .addComponent(keyButton)
                     .addComponent(sortButton))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(searchButton)
                     .addComponent(searchText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(resultScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 287, Short.MAX_VALUE)
+                .addComponent(studentsTextScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 287, Short.MAX_VALUE)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton keyButton;
     private javax.swing.JButton loadButton;
-    private javax.swing.JScrollPane resultScrollPane;
     private javax.swing.JButton saveButton;
     private javax.swing.JButton searchButton;
     private javax.swing.JTextField searchText;
     private javax.swing.JButton sortButton;
     private javax.swing.JTextArea studentsText;
+    private javax.swing.JScrollPane studentsTextScrollPane;
     // End of variables declaration//GEN-END:variables
 }

@@ -9,14 +9,21 @@ package DSA_Assignment2_Q1;
  */
 public class BinaryTree<E extends Comparable> {
 
-    public String treeString;
+    public String fileText;
     public int size;
     private Node root;
 
     public BinaryTree() {
-        this.treeString = "";
+        this.fileText = "";
         this.size = 0;
         this.root = null;
+    }
+
+    // for copying
+    public BinaryTree(BinaryTree binaryTree) {
+        this.fileText = "";
+        this.size = binaryTree.size;
+        this.root = binaryTree.root;
     }
 
     /**
@@ -134,8 +141,8 @@ public class BinaryTree<E extends Comparable> {
      * tree.
      */
     public void traversal() {
+        this.fileText = "";
         traversal(root);
-        System.out.println(treeString);
     }
 
     /**
@@ -151,8 +158,13 @@ public class BinaryTree<E extends Comparable> {
             traversal(current.left);
         }
 
-        treeString += current.data.toString() + '\n';
+        Student student = (Student) current.data;
+        fileText += student.name + ", " + student.mark + '\n';
 
+        // this is different because the file format and Student toString() is not the same.
+        // and the assignment requires to display the toString() :shrug:
+        // System.out.println(current.data.toString());
+        //
         if (current.right != null) {
             traversal(current.right);
         }

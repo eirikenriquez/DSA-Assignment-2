@@ -14,30 +14,37 @@ import java.io.IOException;
  */
 public class Model {
 
-    public BinaryTree studentList;
+    public BinaryTree nameList;
+    public BinaryTree markList;
 
     /**
      * This method reads a text file and populates the binary tree.
      *
      * @param file This is a text file.
+     * @return Returns a String object that contains the text contents.
      * @throws FileNotFoundException
      */
-    public void readFile(File file) throws FileNotFoundException {
-        this.studentList = new BinaryTree<Student>();
+    public String readFile(File file) throws FileNotFoundException {
+        this.nameList = new BinaryTree<Student>();
+        this.markList = new BinaryTree<Student>();
+
+        String str = "";
 
         try {
             BufferedReader br = new BufferedReader(new FileReader(file));
             String line = br.readLine();
 
             while (line != null) {
+                str += line + '\n';
                 addStudent(line);
                 line = br.readLine();
             }
-
             br.close();
         } catch (IOException ex) {
             System.out.println("Error: " + ex.toString());
         }
+
+        return str;
     }
 
     /**
@@ -55,12 +62,20 @@ public class Model {
         String[] studentInfo = line.split(", ", 2);
         String name = studentInfo[0];
 
-        // check if mark is an integer and add student into the binary tree.
+        // check if mark is an integer and add student into the binary trees.
         try {
             int mark = Integer.parseInt(studentInfo[1]);
-            Student student = new Student(name, mark);
-            studentList.add(student);
+
+            Student nameAsKey = new Student(name, mark);
+            nameAsKey.key = nameAsKey.name;
+            this.nameList.add(nameAsKey);
+
+            Student markAsKey = new Student(name, mark);
+            markAsKey.key = markAsKey.mark;
+            this.markList.add(markAsKey);
+
         } catch (NumberFormatException ex) {
+            System.out.println("Error: " + ex.toString());
         }
 
     }
@@ -75,19 +90,32 @@ public class Model {
         }
     }
 
-    public String getStudentListString() {
+    public String getSelectedList(String sortOption) {
+        if (sortOption.equals(SortOption.NAME.nameOfKey)) {
+            return getSelectedList(nameList);
+        } else if (sortOption.equals(SortOption.MARK.nameOfKey)) {
+            return getSelectedList(markList);
+        }
+
+        return null;
+    }
+
+    private String getSelectedList(BinaryTree<Student> studentList) {
         // error handling
-        if (studentList.size <= 0) {
+        if (studentList == null || studentList.size <= 0) {
             return "Error: Invalid Students List File!";
         }
-        this.studentList.traversal();
-        return studentList.treeString;
+        studentList.traversal();
+        return studentList.fileText;
     }
 
     /**
-     * This reverses the binary tree and updates the file.
+     * This reverses the order of the trees.
      */
-    public void sort(String fileName) {
-
+    public void sort() {
+        if (nameList != null && markList != null) {
+            this.nameList.reverseOrder();
+            this.markList.reverseOrder();
+        }
     }
 }
