@@ -90,19 +90,19 @@ public class BinaryTree<E extends Comparable> {
      * @param toFind Comparable object that this method searches for.
      * @param current Node object that is the current key for traversing through
      * the binary tree.
-     * @return
+     * @return Returns the data if the node is found.
      */
     private E findNode(E toFind, Node current) {
-        if (current == null) {
-            return null;
-        }
-
-        if (current.data.compareTo(toFind) > 0) {
+        if (current.data.compareTo(toFind) == 0) {
+            return (E) current.data;
+        } else if (current.data.compareTo(toFind) > 0 && current.left != null) {
+            // search left
             return findNode(toFind, current.left);
-        } else if (current.data.compareTo(toFind) < 0) {
+        } else if (current.data.compareTo(toFind) < 0 && current.right != null) {
+            // search right
             return findNode(toFind, current.right);
         } else {
-            return toFind;
+            return null;
         }
     }
 
@@ -133,7 +133,6 @@ public class BinaryTree<E extends Comparable> {
 
         reverseOrder(current.left);
         reverseOrder(current.right);
-
     }
 
     /**

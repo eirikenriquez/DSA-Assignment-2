@@ -14,8 +14,8 @@ import java.io.IOException;
  */
 public class Model {
 
-    public BinaryTree nameList;
-    public BinaryTree markList;
+    private BinaryTree nameList;
+    private BinaryTree markList;
 
     /**
      * This method reads a text file and populates the binary tree.
@@ -117,5 +117,29 @@ public class Model {
             this.nameList.reverseOrder();
             this.markList.reverseOrder();
         }
+    }
+
+    public String search(String searchQuery, String sortOption) {
+        if (nameList == null && markList == null) {
+            return null;
+        }
+
+        try {
+            if (sortOption.equals(SortOption.NAME.nameOfKey)) {
+                Student toFind = new Student(searchQuery, 0); // mark doesn't matter as it isn't the key..
+                toFind.key = toFind.name;
+                Student found = (Student) nameList.findNode(toFind);
+                return found.toString();
+            } else if (sortOption.equals(SortOption.MARK.nameOfKey)) {
+                Student toFind = new Student("", Integer.parseInt(searchQuery));
+                toFind.key = toFind.mark;
+                Student found = (Student) markList.findNode(toFind);
+                return found.toString();
+            }
+        } catch (NullPointerException | NumberFormatException ex) {
+            return "Not found";
+        }
+
+        return null;
     }
 }

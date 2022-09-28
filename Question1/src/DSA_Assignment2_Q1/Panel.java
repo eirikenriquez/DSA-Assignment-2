@@ -43,7 +43,7 @@ public class Panel extends javax.swing.JPanel {
         // if user chooses a file
         if (option == JFileChooser.APPROVE_OPTION) {
             try {
-                setStudentsText(model.readFile(chooser.getSelectedFile()));
+                setListText(model.readFile(chooser.getSelectedFile()));
             } catch (FileNotFoundException ex) {
                 System.out.println("Error: " + ex.toString());
             }
@@ -57,12 +57,12 @@ public class Panel extends javax.swing.JPanel {
 
         if (option == JFileChooser.APPROVE_OPTION) {
             String fileName = chooser.getSelectedFile().getPath();
-            model.writeFile(studentsText.getText(), fileName);
+            model.writeFile(listText.getText(), fileName);
         }
     }
 
-    private void setStudentsText(String str) {
-        this.studentsText.setText(str);
+    private void setListText(String str) {
+        this.listText.setText(str);
     }
 
     public void setKey() {
@@ -73,13 +73,19 @@ public class Panel extends javax.swing.JPanel {
         selectedList = (String) JOptionPane.showInputDialog(null, "Sort Options", "Sort Options", JOptionPane.PLAIN_MESSAGE, null, sortOptions, null);
 
         if (selectedList != null) {
-            setStudentsText(model.getSelectedList(selectedList));
+            setListText(model.getSelectedList(selectedList));
+            currentKey.setText(selectedList);
         }
     }
 
     public void sort() {
         model.sort();
-        setStudentsText(model.getSelectedList(selectedList));
+        setListText(model.getSelectedList(selectedList));
+    }
+
+    public void search() {
+        String searchQuery = searchText.getText();
+        resultsText.setText(model.search(searchQuery, selectedList));
     }
 
     /**
@@ -96,9 +102,15 @@ public class Panel extends javax.swing.JPanel {
         keyButton = new javax.swing.JButton();
         searchButton = new javax.swing.JButton();
         searchText = new javax.swing.JTextField();
-        studentsTextScrollPane = new javax.swing.JScrollPane();
-        studentsText = new javax.swing.JTextArea();
+        listScrollPane = new javax.swing.JScrollPane();
+        listText = new javax.swing.JTextArea();
         sortButton = new javax.swing.JButton();
+        listLabel = new javax.swing.JLabel();
+        resultsLabel = new javax.swing.JLabel();
+        resultsScrollPane = new javax.swing.JScrollPane();
+        resultsText = new javax.swing.JTextArea();
+        currentKey = new javax.swing.JLabel();
+        currentKey.setText(selectedList);
 
         loadButton.setText("Load");
 
@@ -108,13 +120,25 @@ public class Panel extends javax.swing.JPanel {
 
         searchButton.setText("Search");
 
-        studentsTextScrollPane.setViewportView(null);
+        listScrollPane.setViewportView(null);
 
-        studentsText.setColumns(20);
-        studentsText.setRows(5);
-        studentsTextScrollPane.setViewportView(studentsText);
+        listText.setColumns(20);
+        listText.setRows(5);
+        listScrollPane.setViewportView(listText);
 
         sortButton.setText("Sort");
+
+        listLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        listLabel.setText("List");
+
+        resultsLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        resultsLabel.setText("Search Results");
+
+        resultsText.setColumns(20);
+        resultsText.setRows(5);
+        resultsScrollPane.setViewportView(resultsText);
+
+        currentKey.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -123,19 +147,29 @@ public class Panel extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(studentsTextScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 376, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(searchText)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(searchButton))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(loadButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(saveButton)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(listScrollPane)
+                            .addComponent(listLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(sortButton)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(resultsScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
+                            .addComponent(resultsLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(loadButton)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(saveButton)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 312, Short.MAX_VALUE)
+                                .addComponent(sortButton)
+                                .addGap(32, 32, 32)
+                                .addComponent(keyButton))
+                            .addComponent(searchText))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(keyButton)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(searchButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(currentKey, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -146,25 +180,37 @@ public class Panel extends javax.swing.JPanel {
                     .addComponent(loadButton)
                     .addComponent(saveButton)
                     .addComponent(keyButton)
-                    .addComponent(sortButton))
+                    .addComponent(sortButton)
+                    .addComponent(currentKey))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(searchButton)
                     .addComponent(searchText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(studentsTextScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 287, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(listLabel)
+                    .addComponent(resultsLabel))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(listScrollPane)
+                    .addComponent(resultsScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 263, Short.MAX_VALUE))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel currentKey;
     private javax.swing.JButton keyButton;
+    private javax.swing.JLabel listLabel;
+    private javax.swing.JScrollPane listScrollPane;
+    private javax.swing.JTextArea listText;
     private javax.swing.JButton loadButton;
+    private javax.swing.JLabel resultsLabel;
+    private javax.swing.JScrollPane resultsScrollPane;
+    private javax.swing.JTextArea resultsText;
     private javax.swing.JButton saveButton;
     private javax.swing.JButton searchButton;
     private javax.swing.JTextField searchText;
     private javax.swing.JButton sortButton;
-    private javax.swing.JTextArea studentsText;
-    private javax.swing.JScrollPane studentsTextScrollPane;
     // End of variables declaration//GEN-END:variables
 }

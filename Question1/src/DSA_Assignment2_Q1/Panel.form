@@ -16,23 +16,38 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="0" attributes="0">
+          <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="studentsTextScrollPane" pref="376" max="32767" attributes="0"/>
-                  <Group type="102" alignment="1" attributes="0">
-                      <Component id="searchText" max="32767" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="searchButton" min="-2" max="-2" attributes="0"/>
-                  </Group>
                   <Group type="102" attributes="0">
-                      <Component id="loadButton" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="saveButton" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="listScrollPane" max="32767" attributes="0"/>
+                          <Component id="listLabel" pref="300" max="32767" attributes="0"/>
+                      </Group>
                       <EmptySpace max="32767" attributes="0"/>
-                      <Component id="sortButton" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="resultsScrollPane" pref="300" max="32767" attributes="0"/>
+                          <Component id="resultsLabel" max="32767" attributes="0"/>
+                      </Group>
+                  </Group>
+                  <Group type="102" alignment="1" attributes="0">
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Group type="102" attributes="0">
+                              <Component id="loadButton" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Component id="saveButton" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace pref="312" max="32767" attributes="0"/>
+                              <Component id="sortButton" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
+                              <Component id="keyButton" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <Component id="searchText" max="32767" attributes="0"/>
+                      </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="keyButton" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="searchButton" max="32767" attributes="0"/>
+                          <Component id="currentKey" max="32767" attributes="0"/>
+                      </Group>
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -48,14 +63,23 @@
                   <Component id="saveButton" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="keyButton" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="sortButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="currentKey" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="searchButton" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="searchText" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Component id="studentsTextScrollPane" pref="287" max="32767" attributes="0"/>
+              <EmptySpace pref="12" max="32767" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="listLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="resultsLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                  <Component id="listScrollPane" max="32767" attributes="0"/>
+                  <Component id="resultsScrollPane" pref="263" max="32767" attributes="0"/>
+              </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -84,7 +108,7 @@
     </Component>
     <Component class="javax.swing.JTextField" name="searchText">
     </Component>
-    <Container class="javax.swing.JScrollPane" name="studentsTextScrollPane">
+    <Container class="javax.swing.JScrollPane" name="listScrollPane">
       <Properties>
         <Property name="viewportView" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
           <ComponentRef name="null"/>
@@ -96,7 +120,7 @@
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
       <SubComponents>
-        <Component class="javax.swing.JTextArea" name="studentsText">
+        <Component class="javax.swing.JTextArea" name="listText">
           <Properties>
             <Property name="columns" type="int" value="20"/>
             <Property name="rows" type="int" value="5"/>
@@ -108,6 +132,41 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Sort"/>
       </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="listLabel">
+      <Properties>
+        <Property name="horizontalAlignment" type="int" value="0"/>
+        <Property name="text" type="java.lang.String" value="List"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="resultsLabel">
+      <Properties>
+        <Property name="horizontalAlignment" type="int" value="0"/>
+        <Property name="text" type="java.lang.String" value="Search Results"/>
+      </Properties>
+    </Component>
+    <Container class="javax.swing.JScrollPane" name="resultsScrollPane">
+      <AuxValues>
+        <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
+      </AuxValues>
+
+      <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+      <SubComponents>
+        <Component class="javax.swing.JTextArea" name="resultsText">
+          <Properties>
+            <Property name="columns" type="int" value="20"/>
+            <Property name="rows" type="int" value="5"/>
+          </Properties>
+        </Component>
+      </SubComponents>
+    </Container>
+    <Component class="javax.swing.JLabel" name="currentKey">
+      <Properties>
+        <Property name="horizontalAlignment" type="int" value="0"/>
+      </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_CreateCodePost" type="java.lang.String" value="currentKey.setText(selectedList);&#xa;"/>
+      </AuxValues>
     </Component>
   </SubComponents>
 </Form>

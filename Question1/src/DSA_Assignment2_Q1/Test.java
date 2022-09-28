@@ -30,6 +30,9 @@ public class Test {
 
         tree.traversal();
 
+        System.out.println("To Find: " + s2);
+        System.out.println("Returned: " + tree.findNode(s2));
+
         tree.reverseOrder();
         System.out.println("");
         tree.traversal();

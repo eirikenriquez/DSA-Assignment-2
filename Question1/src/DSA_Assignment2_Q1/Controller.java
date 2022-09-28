@@ -33,6 +33,7 @@ public class Controller implements ActionListener {
                 panel.sort();
                 break;
             case "Search":
+                panel.search();
                 break;
             default:
                 break;
