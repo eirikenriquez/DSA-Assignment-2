@@ -12,11 +12,13 @@ public class BinaryTree<E extends Comparable> {
     public String fileText;
     public int size;
     private Node root;
+    private boolean reversed;
 
     public BinaryTree() {
         this.fileText = "";
         this.size = 0;
         this.root = null;
+        this.reversed = false;
     }
 
     // for copying
@@ -54,7 +56,7 @@ public class BinaryTree<E extends Comparable> {
      * through the binary tree.
      */
     private void add(Node newNode, Node current) {
-        if (current.compareTo(newNode) > 0) {
+        if ((!reversed && current.compareTo(newNode) > 0) || (reversed && current.compareTo(newNode) < 0)) {
             if (current.left == null) {
                 current.left = newNode;
                 size++;
@@ -95,10 +97,10 @@ public class BinaryTree<E extends Comparable> {
     private E findNode(E toFind, Node current) {
         if (current.data.compareTo(toFind) == 0) {
             return (E) current.data;
-        } else if (current.data.compareTo(toFind) > 0 && current.left != null) {
+        } else if (((!reversed && current.data.compareTo(toFind) > 0) || (reversed && current.data.compareTo(toFind) < 0)) && current.left != null) {
             // search left
             return findNode(toFind, current.left);
-        } else if (current.data.compareTo(toFind) < 0 && current.right != null) {
+        } else if (((!reversed && current.data.compareTo(toFind) < 0) || (reversed && current.data.compareTo(toFind) > 0)) && current.right != null) {
             // search right
             return findNode(toFind, current.right);
         } else {
@@ -112,6 +114,13 @@ public class BinaryTree<E extends Comparable> {
      */
     public void reverseOrder() {
         reverseOrder(root);
+
+        // updates the reversed flag.
+        if (reversed) {
+            reversed = false;
+        } else {
+            reversed = true;
+        }
     }
 
     /**
@@ -162,8 +171,8 @@ public class BinaryTree<E extends Comparable> {
 
         // this is different because the file format and Student toString() is not the same.
         // and the assignment requires to display the toString() :shrug:
-        // System.out.println(current.data.toString());
-        //
+        System.out.println(current.data.toString());
+
         if (current.right != null) {
             traversal(current.right);
         }

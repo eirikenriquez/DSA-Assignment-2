@@ -37,5 +37,8 @@ public class Test {
         System.out.println("");
         tree.traversal();
 
+        System.out.println("\nReversed");
+        System.out.println("To Find: " + s2);
+        System.out.println("Returned: " + tree.findNode(s2));
     }
 }
