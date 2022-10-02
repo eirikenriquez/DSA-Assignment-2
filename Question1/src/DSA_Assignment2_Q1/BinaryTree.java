@@ -26,6 +26,7 @@ public class BinaryTree<E extends Comparable> {
         this.fileText = "";
         this.size = binaryTree.size;
         this.root = binaryTree.root;
+        this.reversed = binaryTree.reversed;
     }
 
     /**
@@ -57,6 +58,7 @@ public class BinaryTree<E extends Comparable> {
      */
     private void add(Node newNode, Node current) {
         if ((!reversed && current.compareTo(newNode) > 0) || (reversed && current.compareTo(newNode) < 0)) {
+            // go left
             if (current.left == null) {
                 current.left = newNode;
                 size++;
@@ -64,6 +66,7 @@ public class BinaryTree<E extends Comparable> {
                 add(newNode, current.left);
             }
         } else {
+            // go right
             if (current.right == null) {
                 current.right = newNode;
                 size++;
@@ -110,7 +113,8 @@ public class BinaryTree<E extends Comparable> {
 
     /**
      * This method reverses the order of the tree with a time complexity of
-     * O(n).
+     * O(n). This calls a private method which uses recursion to swap the left
+     * and right nodes of each node.
      */
     public void reverseOrder() {
         reverseOrder(root);
@@ -128,7 +132,7 @@ public class BinaryTree<E extends Comparable> {
      * method swaps the left and right nodes for each Node. The time complexity
      * is O(n) as it traverses through each Node only once.
      *
-     * @param current
+     * @param current The current Node object when traversing through the tree.
      */
     private void reverseOrder(Node current) {
         if (current == null) {
@@ -166,11 +170,11 @@ public class BinaryTree<E extends Comparable> {
             traversal(current.left);
         }
 
+        // this is for the gui
         Student student = (Student) current.data;
         fileText += student.name + ", " + student.mark + '\n';
 
-        // this is different because the file format and Student toString() is not the same.
-        // and the assignment requires to display the toString() :shrug:
+        // this is for the console
         System.out.println(current.data.toString());
 
         if (current.right != null) {

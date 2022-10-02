@@ -9,7 +9,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 /**
- *
  * @author eirik
  */
 public class Model {
@@ -90,6 +89,13 @@ public class Model {
         }
     }
 
+    /**
+     * This method returns the selected "list" in String format. The list is
+     * actually a tree but I feel calling it a student tree sounds weird.
+     *
+     * @param sortOption
+     * @return
+     */
     public String getSelectedList(String sortOption) {
         if (sortOption.equals(SortOption.NAME.nameOfKey)) {
             return getSelectedList(nameList);
