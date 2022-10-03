@@ -4,7 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
- * This is the conroller for the GUI buttons and is used for reading the button
+ * This is the controller for the GUI buttons and is used for reading the button
  * press and calling methods for updating the GUI accordingly.
  *
  * @author eirik
@@ -28,13 +28,25 @@ class Controller implements ActionListener {
 
         switch (action) {
             case "Load":
+                panel.loadButton.setEnabled(false);
+                String fileName = panel.loadFile();
+
+                if (fileName != null) {
+                    this.ip = new ImageProcess(fileName);
+                    panel.cleanButton.setEnabled(true);
+                }
 
                 break;
             case "Clean":
-
+                ip.cleanNoise();
+                panel.doneCleaning();
+                panel.saveButton.setEnabled(true);
                 break;
             case "Save":
-
+                String cleanedName = "noise_removed.jpg";
+                ip.save(cleanedName);
+                panel.fileSaved(cleanedName);
+                panel.loadButton.setEnabled(true);
                 break;
             default:
                 break;
