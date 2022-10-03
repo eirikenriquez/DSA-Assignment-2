@@ -22,20 +22,22 @@ class Controller implements ActionListener {
         this.ip = ip;
     }
 
+    /**
+     * This reads the button pressed and calls methods accordingly.
+     *
+     * @param ae The button pressed.
+     */
     @Override
     public void actionPerformed(ActionEvent ae) {
         String action = ae.getActionCommand();
 
         switch (action) {
             case "Load":
-                panel.loadButton.setEnabled(false);
                 String fileName = panel.loadFile();
-
                 if (fileName != null) {
                     this.ip = new ImageProcess(fileName);
                     panel.cleanButton.setEnabled(true);
                 }
-
                 break;
             case "Clean":
                 ip.cleanNoise();
@@ -46,7 +48,6 @@ class Controller implements ActionListener {
                 String cleanedName = "noise_removed.jpg";
                 ip.save(cleanedName);
                 panel.fileSaved(cleanedName);
-                panel.loadButton.setEnabled(true);
                 break;
             default:
                 break;

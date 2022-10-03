@@ -1,12 +1,10 @@
 package DSA_Assignment2_Q2;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  * This class extends JPanel and holds all the GUI components.
@@ -77,4 +75,5 @@ public class Panel extends JPanel {
     public void fileSaved(String fileName) {
         JOptionPane.showMessageDialog(this, "Saved as \"" + fileName + "\"!");
     }
+
 }
