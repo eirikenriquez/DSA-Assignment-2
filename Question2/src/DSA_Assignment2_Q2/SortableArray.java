@@ -18,6 +18,7 @@ package DSA_Assignment2_Q2;
  * 2. Another good way of finding median is using merge sort. This is because
  * the time complexity in all three cases (average, best, worst) is O(nlogn),
  * unlike quick sort which is O(n^2) for worst case.
+ * <p>
  * This class takes in a generic comparable array and contains a quick sort
  * method for sorting the array.
  *
