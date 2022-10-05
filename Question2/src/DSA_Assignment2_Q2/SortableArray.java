@@ -15,9 +15,12 @@ package DSA_Assignment2_Q2;
  * be found but the method carries on recursively calling itself until the whole
  * array is sorted.
  * <p>
- * 2. Another good way of finding median is using merge sort. This is because
- * the time complexity in all three cases (average, best, worst) is O(nlogn),
- * unlike quick sort which is O(n^2) for worst case.
+ * 2. Radix sort is a good way of finding the median as it's time complexity is
+ * O(l*(n+k)) where l is the number of digits in each item, n is the number of
+ * items to sort and k is the number of values each digit can have. Radix sort
+ * works in this context as the number of digits is only 3 for each item. This
+ * means that in this instance, radix sort is quicker than quick sort
+ * (ironically).
  * <p>
  * This class takes in a generic comparable array and contains a quick sort
  * method for sorting the array.
