@@ -10,11 +10,10 @@ import javax.swing.JFrame;
  */
 public class Frame extends JFrame {
 
-    public Frame() {
+    public Frame(Panel panel) {
         super("Maze");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        Panel panel = new Panel();
-        add(new Panel());
+        add(panel);
         pack();
         setLocationRelativeTo(null);
         setVisible(true);

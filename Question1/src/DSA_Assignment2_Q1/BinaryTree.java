@@ -120,11 +120,7 @@ public class BinaryTree<E extends Comparable> {
         reverseOrder(root);
 
         // updates the reversed flag.
-        if (reversed) {
-            reversed = false;
-        } else {
-            reversed = true;
-        }
+        reversed = !reversed;
     }
 
     /**
