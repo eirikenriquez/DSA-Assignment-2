@@ -13,6 +13,7 @@ public class Node {
     public Node nextTwo;
     public String nextOneName;
     public String nextTwoName;
+    public boolean drawn;
 
     public Node(String name, int x, int y, String nextOneName, String nextTwoName) {
         this.name = name;
@@ -20,6 +21,7 @@ public class Node {
         this.y = y;
         this.nextOneName = nextOneName;
         this.nextTwoName = nextTwoName;
+        this.drawn = false;
     }
 
     @Override

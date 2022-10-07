@@ -18,6 +18,7 @@ public class Model {
     public int rows;
     public Node[] nodes;
     public int nodesSize;
+    public Node root;
 
     public Model() {
         this.linkers = 0;
@@ -25,6 +26,7 @@ public class Model {
         this.rows = 0;
         this.nodes = null;
         this.nodesSize = 0;
+        this.root = null;
     }
 
     public void readFile(File file) throws FileNotFoundException {
@@ -40,6 +42,7 @@ public class Model {
                 } else {
                     // get Node info
                     addNode(line, lineIndex - 1);
+                    this.root = nodes[0];
                 }
 
                 line = br.readLine();
