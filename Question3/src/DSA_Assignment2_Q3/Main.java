@@ -3,6 +3,7 @@ package DSA_Assignment2_Q3;
 import java.io.File;
 import java.io.FileNotFoundException;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
@@ -14,20 +15,25 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 public class Main {
 
     public static void main(String[] args) {
-        Model model = new Model();
-
-        try {
-            model.readFile(fileChooser());
-        } catch (FileNotFoundException | NullPointerException ex) {
-            System.out.println("Error: " + ex.toString());
-            System.exit(0);
-        }
-
+        Model model = askForFile(new Model());
         model.setNextNodes();
         model.printNodes();
 
         Panel panel = new Panel(model);
         Frame frame = new Frame(panel);
+    }
+
+    private static Model askForFile(Model model) {
+        while (model.nodesSize == 0) {
+            JOptionPane.showMessageDialog(null, "Please select a maze text file!");
+
+            try {
+                model.readFile(fileChooser());
+            } catch (FileNotFoundException | NullPointerException ex) {
+                System.out.println("Error: " + ex.toString());
+            }
+        }
+        return model;
     }
 
     private static File fileChooser() {
