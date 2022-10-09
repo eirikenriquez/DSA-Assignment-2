@@ -20,6 +20,7 @@ public class Model {
     public int nodesSize;
     public Node start;
     public Node end;
+    public Node[] correctPath;
 
     public Model() {
         this.linkers = 0;
@@ -112,6 +113,25 @@ public class Model {
                     nodes[j].parentTwo = nodes[i];
                 }
             }
+        }
+    }
+
+    public void search(Node current, Node[] path, int iterator) {
+        if (current.name.equals("EXIT")) {
+            path[iterator] = current;
+            correctPath = path;
+        }
+
+        if (current.nextOne != null && !current.nextOne.visited) {
+            current.visited = true;
+            path[iterator] = current;
+            search(current.nextOne, path, iterator + 1);
+        }
+
+        if (current.nextTwo != null && !current.nextTwo.visited) {
+            current.visited = true;
+            path[iterator] = current;
+            search(current.nextTwo, path, iterator + 1);
         }
     }
 
