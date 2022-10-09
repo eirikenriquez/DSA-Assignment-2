@@ -44,6 +44,8 @@ public class Main {
         // if user chooses a file
         if (option == JFileChooser.APPROVE_OPTION) {
             return chooser.getSelectedFile();
+        } else if (option == JFileChooser.CANCEL_OPTION) {
+            System.exit(0);
         }
 
         return null;

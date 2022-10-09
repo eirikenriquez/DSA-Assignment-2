@@ -18,7 +18,8 @@ public class Model {
     public int rows;
     public Node[] nodes;
     public int nodesSize;
-    public Node root;
+    public Node start;
+    public Node end;
 
     public Model() {
         this.linkers = 0;
@@ -26,7 +27,7 @@ public class Model {
         this.rows = 0;
         this.nodes = null;
         this.nodesSize = 0;
-        this.root = null;
+        this.end = null;
     }
 
     public void readFile(File file) throws FileNotFoundException {
@@ -42,7 +43,8 @@ public class Model {
                 } else {
                     // get Node info
                     addNode(line, lineIndex - 1);
-                    this.root = nodes[0];
+                    this.start = nodes[0];
+                    this.end = nodes[nodesSize - 1];
                 }
 
                 line = br.readLine();
@@ -82,18 +84,32 @@ public class Model {
     public void setNextNodes() {
         for (int i = 0; i < nodesSize; i++) {
             for (int j = 1; j < nodesSize; j++) {
+                // check nextOne
                 if (nodes[i].nextOneName.equals(nodes[j].name)) {
+                    // current nextOne
                     nodes[i].nextOne = nodes[j];
-                } else if (nodes[i].nextTwoName.equals(nodes[j].name)) {
-                    nodes[i].nextTwo = nodes[j];
+                    nodes[j].parentOne = nodes[i];
                 } else if (nodes[i].nextOneName.equals("A")) {
+                    // current nextOne is null
                     nodes[i].nextOne = null;
                 } else if (nodes[i].nextOneName.equals("W") && nodes[j].name.equals("EXIT")) {
+                    // current nextOne is end
                     nodes[i].nextOne = nodes[j];
+                    nodes[j].parentOne = nodes[i];
+                }
+
+                // check nextTwo
+                if (nodes[i].nextTwoName.equals(nodes[j].name)) {
+                    // current nextTwo
+                    nodes[i].nextTwo = nodes[j];
+                    nodes[j].parentTwo = nodes[i];
                 } else if (nodes[i].nextTwoName.equals("A")) {
+                    // current nextTwo is null
                     nodes[i].nextTwo = null;
                 } else if (nodes[i].nextTwoName.equals("W") && nodes[j].name.equals("EXIT")) {
+                    // current nextTwo is end
                     nodes[i].nextTwo = nodes[j];
+                    nodes[j].parentTwo = nodes[i];
                 }
             }
         }
