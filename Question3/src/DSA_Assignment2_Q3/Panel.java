@@ -40,7 +40,6 @@ class Panel extends JPanel {
         drawOtherPaths(g, model.start, 0);
         drawNodes(g, model.start, 0);
         drawPointer(g);
-        drawCorrectPath(g);
     }
 
     private void drawNodes(Graphics g, Node current, int iterator) {
@@ -73,9 +72,11 @@ class Panel extends JPanel {
                 System.out.println("Error: " + ex.toString());
             }
 
-            // dont repaint if pointer is at exit
+            // draw path highlight when pointer is at exit
             if (model.correctPath[pointer] != null) {
                 repaint();
+            } else {
+                drawCorrectPath(g);
             }
         }
     }
