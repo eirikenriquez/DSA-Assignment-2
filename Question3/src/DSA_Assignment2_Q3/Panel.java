@@ -4,9 +4,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.Polygon;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
@@ -25,12 +22,13 @@ class Panel extends JPanel {
     private final int panelWidth;
     private final int panelHeight;
     private final Model model;
+    private int pointer;
 
     public Panel(Model model) {
-        // gui stuff
         this.model = model;
         this.panelWidth = model.columns * SCALE;
         this.panelHeight = model.rows * SCALE;
+        this.pointer = 0;
         setBorder(new EmptyBorder(BORDER, BORDER, BORDER, BORDER));
         setPreferredSize(new Dimension(panelWidth + BORDER, panelHeight + BORDER));
         setFocusable(true);
@@ -41,12 +39,13 @@ class Panel extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         drawOtherPaths(g, model.start, 0);
+        drawNodes(g, model.start, 0);
+        drawPointer(g);
         drawCorrectPath(g);
-        drawNodes(g, model.start);
     }
 
-    private void drawNodes(Graphics g, Node current) {
-        if (current != null && !current.drawnNode) {
+    private void drawNodes(Graphics g, Node current, int iterator) {
+        if (current != null && iterator <= model.nodesSize) {
             // actual node
             g.setColor(Color.BLUE);
             g.fillOval(convertPostion(current.x), convertPostion(current.y), NODE_DIAMETER, NODE_DIAMETER);
@@ -56,47 +55,34 @@ class Panel extends JPanel {
             g.setFont(new Font("arial", Font.BOLD, 16));
             g.drawString(current.name, convertPostion(current.x) + NAME_OFFSET, convertPostion(current.y) + NAME_OFFSET);
 
-            current.drawnNode = true;
-            drawNodes(g, current.nextOne);
-            drawNodes(g, current.nextTwo);
+            drawNodes(g, current.nextOne, iterator + 1);
+            drawNodes(g, current.nextTwo, iterator + 1);
+        }
+    }
+
+    private void drawPointer(Graphics g) {
+        if (model.correctPath[pointer] != null) {
+            // pointer moving
+            g.setColor(Color.YELLOW);
+            Node current = model.correctPath[pointer];
+            g.fillOval(convertPostion(current.x), convertPostion(current.y), NODE_DIAMETER, NODE_DIAMETER);
+
+            pointer++;
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException ex) {
+                System.out.println("Error: " + ex.toString());
+            }
+
+            // dont repaint if pointer is at exit
+            if (model.correctPath[pointer] != null) {
+                repaint();
+            }
         }
     }
 
     private void drawCorrectPath(Graphics g) {
         for (int i = 0; model.correctPath[i + 1] != null; i++) {
-            /*// draw pointer
-            int pointerX = convertPostion(model.correctPath[i].x) + POINTER_OFFSET;
-            int pointerY = convertPostion(model.correctPath[i].y) + POINTER_OFFSET;
-            int targetX = convertPostion(model.correctPath[i + 1].x) + POINTER_OFFSET;
-            int targetY = convertPostion(model.correctPath[i + 1].y) + POINTER_OFFSET;
-            g.setColor(Color.YELLOW);
-
-            while (pointerX != targetX || pointerY != targetY) {
-                g.fillRect(pointerX, pointerY, 5, 10);
-                g.fillRect(pointerX, pointerY, 5, 10);
-                g.drawString("Pointer", pointerX + 5, pointerY + 5);
-
-                // move x
-                if (pointerX < targetX) {
-                    pointerX++;
-                } else {
-                    pointerX--;
-                }
-
-                // move y
-                if (pointerY < targetY) {
-                    pointerY++;
-                } else {
-                    pointerY--;
-                }
-
-                try {
-                    Thread.sleep(2);
-                } catch (InterruptedException ex) {
-                    System.out.println("Error: " + ex);
-                }
-            }
-             */
             // draw line
             g.setColor(Color.GREEN);
             g.drawLine(convertPostion(model.correctPath[i].x) + NODE_DIAMETER / 2,

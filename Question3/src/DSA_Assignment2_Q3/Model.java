@@ -116,6 +116,13 @@ public class Model {
         }
     }
 
+    /**
+     * This finds the correct path of the maze.
+     *
+     * @param current The current node visited.
+     * @param path Node array that holds all the nodes visited.
+     * @param iterator The index of the current Node in the path.
+     */
     public void search(Node current, Node[] path, int iterator) {
         if (current.name.equals("EXIT")) {
             path[iterator] = current;
