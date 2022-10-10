@@ -18,7 +18,6 @@ class Panel extends JPanel {
     private static final int SCALE = 100;
     private static final int NODE_DIAMETER = 25;
     private static final int NAME_OFFSET = -15;
-    private static final int POINTER_OFFSET = 15;
     private final int panelWidth;
     private final int panelHeight;
     private final Model model;
