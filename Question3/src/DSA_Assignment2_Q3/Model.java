@@ -5,6 +5,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.LinkedList;
+import java.util.Stack;
 
 /**
  * This holds all the actual Maze information.
@@ -20,14 +22,23 @@ public class Model {
     public int nodesSize;
     public Node start;
     public Node end;
+    public Stack<Node> correctPath;
+    public LinkedList<Node> visitHistory;
+    public boolean exitFound;
 
     public Model() {
+        // file reading
         this.linkers = 0;
         this.columns = 0;
         this.rows = 0;
         this.nodes = null;
         this.nodesSize = 0;
         this.end = null;
+
+        // search method
+        this.correctPath = new Stack<>();
+        this.visitHistory = new LinkedList<>();
+        this.exitFound = false;
     }
 
     public void readFile(File file) throws FileNotFoundException {
@@ -108,6 +119,30 @@ public class Model {
                     nodes[i].nextTwo = nodes[j];
                 }
             }
+        }
+    }
+
+    public void search() {
+        search(start, new Stack<>());
+    }
+
+    private void search(Node current, Stack<Node> path) {
+        current.visited = true;
+        visitHistory.add(current);
+
+        if (current.name.equals("EXIT")) {
+            path.push(current);
+            correctPath = path;
+            exitFound = true;
+        } else if (current.nextOne != null && !current.nextOne.visited) {
+            path.push(current);
+            search(current.nextOne, path);
+        } else if (current.nextTwo != null && !current.nextTwo.visited) {
+            path.push(current);
+            search(current.nextTwo, path);
+        } else {
+            // go back if next is null
+            search(path.pop(), path);
         }
     }
 

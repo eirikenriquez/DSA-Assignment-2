@@ -18,6 +18,7 @@ public class Main {
         Model model = askForFile(new Model());
         model.setNextNodes();
         model.printNodes();
+        model.search();
 
         Panel panel = new Panel(model);
         Frame frame = new Frame(panel);

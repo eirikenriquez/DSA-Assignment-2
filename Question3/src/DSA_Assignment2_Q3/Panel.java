@@ -5,13 +5,12 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.Stack;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 /**
- * This is the JPanel that holds all the components for the GUI.
+ * This is the JPanel that holds all the code that displays the maze onto the
+ * GUI.
  *
  * @author eirik
  */
@@ -25,21 +24,18 @@ class Panel extends JPanel {
     private final int panelWidth;
     private final int panelHeight;
     private final Model model;
-    public Stack<Node> correctPath;
-    public LinkedList<Node> visitHistory;
-    public boolean exitFound;
-    public boolean pointerAtExit;
-    public int pointer;
+    private boolean pointerAtExit;
+    private int pointer;
 
     public Panel(Model model) {
+        // fields
         this.model = model;
         this.panelWidth = model.columns * SCALE;
         this.panelHeight = model.rows * SCALE;
-        this.correctPath = new Stack<>();
-        this.visitHistory = new LinkedList<>();
-        this.exitFound = false;
         this.pointerAtExit = false;
         this.pointer = 0;
+
+        //gui
         setBorder(new EmptyBorder(BORDER, BORDER, BORDER, BORDER));
         setPreferredSize(new Dimension(panelWidth + BORDER, panelHeight + BORDER));
         setFocusable(true);
@@ -51,13 +47,9 @@ class Panel extends JPanel {
         super.paintComponent(g);
         drawNodes(g, model.start, 0);
         drawOtherPaths(g, model.start, 0);
-        if (!exitFound) {
-            search(g, model.start, new Stack<>());
-        } else {
-            drawPointer(g, visitHistory.get(pointer));
-            if (pointerAtExit) {
-                drawCorrectPath(g);
-            }
+        drawPointer(g, model.visitHistory.get(pointer));
+        if (pointerAtExit) {
+            drawCorrectPath(g);
         }
     }
 
@@ -81,6 +73,7 @@ class Panel extends JPanel {
         pointer++;
         g.setColor(Color.YELLOW);
         g.fillOval(convertPostion(current.x), convertPostion(current.y), NODE_DIAMETER, NODE_DIAMETER);
+
         try {
             Thread.sleep(POINTER_DELAY);
         } catch (InterruptedException ex) {
@@ -94,31 +87,8 @@ class Panel extends JPanel {
         }
     }
 
-    public void search(Graphics g, Node current, Stack<Node> path) {
-        System.out.println("cur" + current);
-
-        current.visited = true;
-        visitHistory.add(current);
-
-        if (current.name.equals("EXIT")) {
-            path.push(current);
-            correctPath = path;
-            exitFound = true;
-        } else if (current.nextOne != null && !current.nextOne.visited) {
-            path.push(current);
-            search(g, current.nextOne, path);
-        } else if (current.nextTwo != null && !current.nextTwo.visited) {
-            path.push(current);
-            search(g, current.nextTwo, path);
-        } else {
-            // go back if next is null
-            search(g, path.pop(), path);
-        }
-
-    }
-
     private void drawCorrectPath(Graphics g) {
-        Iterator<Node> iter = correctPath.iterator();
+        Iterator<Node> iter = model.correctPath.iterator();
 
         // draw line
         if (iter.hasNext()) {
