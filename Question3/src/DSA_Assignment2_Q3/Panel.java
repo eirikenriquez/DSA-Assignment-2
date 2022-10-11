@@ -4,6 +4,9 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.Stack;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
@@ -18,15 +21,24 @@ class Panel extends JPanel {
     private static final int SCALE = 100;
     private static final int NODE_DIAMETER = 25;
     private static final int NAME_OFFSET = -15;
+    private static final int POINTER_DELAY = 500;
     private final int panelWidth;
     private final int panelHeight;
     private final Model model;
-    private int pointer;
+    public Stack<Node> correctPath;
+    public LinkedList<Node> visitHistory;
+    public boolean exitFound;
+    public boolean pointerAtExit;
+    public int pointer;
 
     public Panel(Model model) {
         this.model = model;
         this.panelWidth = model.columns * SCALE;
         this.panelHeight = model.rows * SCALE;
+        this.correctPath = new Stack<>();
+        this.visitHistory = new LinkedList<>();
+        this.exitFound = false;
+        this.pointerAtExit = false;
         this.pointer = 0;
         setBorder(new EmptyBorder(BORDER, BORDER, BORDER, BORDER));
         setPreferredSize(new Dimension(panelWidth + BORDER, panelHeight + BORDER));
@@ -37,9 +49,16 @@ class Panel extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        drawOtherPaths(g, model.start, 0);
         drawNodes(g, model.start, 0);
-        drawPointer(g);
+        drawOtherPaths(g, model.start, 0);
+        if (!exitFound) {
+            search(g, model.start, new Stack<>());
+        } else {
+            drawPointer(g, visitHistory.get(pointer));
+            if (pointerAtExit) {
+                drawCorrectPath(g);
+            }
+        }
     }
 
     private void drawNodes(Graphics g, Node current, int iterator) {
@@ -58,37 +77,61 @@ class Panel extends JPanel {
         }
     }
 
-    private void drawPointer(Graphics g) {
-        if (model.correctPath[pointer] != null) {
-            // pointer moving
-            g.setColor(Color.YELLOW);
-            Node current = model.correctPath[pointer];
-            g.fillOval(convertPostion(current.x), convertPostion(current.y), NODE_DIAMETER, NODE_DIAMETER);
+    private void drawPointer(Graphics g, Node current) {
+        pointer++;
+        g.setColor(Color.YELLOW);
+        g.fillOval(convertPostion(current.x), convertPostion(current.y), NODE_DIAMETER, NODE_DIAMETER);
+        try {
+            Thread.sleep(POINTER_DELAY);
+        } catch (InterruptedException ex) {
+            System.out.println("Error: " + ex.toString());
+        }
 
-            pointer++;
-            try {
-                Thread.sleep(500);
-            } catch (InterruptedException ex) {
-                System.out.println("Error: " + ex.toString());
-            }
-
-            // draw path highlight when pointer is at exit
-            if (model.correctPath[pointer] != null) {
-                repaint();
-            } else {
-                drawCorrectPath(g);
-            }
+        if (!current.name.equals("EXIT")) {
+            repaint();
+        } else {
+            pointerAtExit = true;
         }
     }
 
+    public void search(Graphics g, Node current, Stack<Node> path) {
+        System.out.println("cur" + current);
+
+        current.visited = true;
+        visitHistory.add(current);
+
+        if (current.name.equals("EXIT")) {
+            path.push(current);
+            correctPath = path;
+            exitFound = true;
+        } else if (current.nextOne != null && !current.nextOne.visited) {
+            path.push(current);
+            search(g, current.nextOne, path);
+        } else if (current.nextTwo != null && !current.nextTwo.visited) {
+            path.push(current);
+            search(g, current.nextTwo, path);
+        } else {
+            // go back if next is null
+            search(g, path.pop(), path);
+        }
+
+    }
+
     private void drawCorrectPath(Graphics g) {
-        for (int i = 0; model.correctPath[i + 1] != null; i++) {
-            // draw line
-            g.setColor(Color.GREEN);
-            g.drawLine(convertPostion(model.correctPath[i].x) + NODE_DIAMETER / 2,
-                    convertPostion(model.correctPath[i].y) + NODE_DIAMETER / 2,
-                    convertPostion(model.correctPath[i + 1].x) + NODE_DIAMETER / 2,
-                    convertPostion(model.correctPath[i + 1].y) + NODE_DIAMETER / 2);
+        Iterator<Node> iter = correctPath.iterator();
+
+        // draw line
+        if (iter.hasNext()) {
+            Node current = iter.next();
+            while (iter.hasNext()) {
+                Node next = iter.next();
+                g.setColor(Color.GREEN);
+                g.drawLine(convertPostion(current.x) + NODE_DIAMETER / 2,
+                        convertPostion(current.y) + NODE_DIAMETER / 2,
+                        convertPostion(next.x) + NODE_DIAMETER / 2,
+                        convertPostion(next.y) + NODE_DIAMETER / 2);
+                current = next;
+            }
         }
     }
 

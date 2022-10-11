@@ -9,8 +9,6 @@ public class Node {
     public String name;
     public int x;
     public int y;
-    public Node parentOne;
-    public Node parentTwo;
     public Node nextOne;
     public Node nextTwo;
     public String nextOneName;
@@ -33,8 +31,6 @@ public class Node {
         return "Node{" + "name=" + name
                 + ", x=" + x
                 + ", y=" + y
-                + ", parentOne=" + (parentOne != null ? parentOne.name : "null")
-                + ", parentTwo=" + (parentTwo != null ? parentTwo.name : "null")
                 + ", nextOne=" + nextOneName + ", nextTwo=" + nextTwoName + '}';
     }
 

@@ -20,7 +20,6 @@ public class Model {
     public int nodesSize;
     public Node start;
     public Node end;
-    public Node[] correctPath;
 
     public Model() {
         this.linkers = 0;
@@ -89,56 +88,26 @@ public class Model {
                 if (nodes[i].nextOneName.equals(nodes[j].name)) {
                     // current nextOne
                     nodes[i].nextOne = nodes[j];
-                    nodes[j].parentOne = nodes[i];
                 } else if (nodes[i].nextOneName.equals("A")) {
                     // current nextOne is null
                     nodes[i].nextOne = null;
                 } else if (nodes[i].nextOneName.equals("W") && nodes[j].name.equals("EXIT")) {
                     // current nextOne is end
                     nodes[i].nextOne = nodes[j];
-                    nodes[j].parentOne = nodes[i];
                 }
 
                 // check nextTwo
                 if (nodes[i].nextTwoName.equals(nodes[j].name)) {
                     // current nextTwo
                     nodes[i].nextTwo = nodes[j];
-                    nodes[j].parentTwo = nodes[i];
                 } else if (nodes[i].nextTwoName.equals("A")) {
                     // current nextTwo is null
                     nodes[i].nextTwo = null;
                 } else if (nodes[i].nextTwoName.equals("W") && nodes[j].name.equals("EXIT")) {
                     // current nextTwo is end
                     nodes[i].nextTwo = nodes[j];
-                    nodes[j].parentTwo = nodes[i];
                 }
             }
-        }
-    }
-
-    /**
-     * This finds the correct path of the maze.
-     *
-     * @param current The current node visited.
-     * @param path Node array that holds all the nodes visited.
-     * @param iterator The index of the current Node in the path.
-     */
-    public void search(Node current, Node[] path, int iterator) {
-        if (current.name.equals("EXIT")) {
-            path[iterator] = current;
-            correctPath = path;
-        }
-
-        if (current.nextOne != null && !current.nextOne.visited) {
-            current.visited = true;
-            path[iterator] = current;
-            search(current.nextOne, path, iterator + 1);
-        }
-
-        if (current.nextTwo != null && !current.nextTwo.visited) {
-            current.visited = true;
-            path[iterator] = current;
-            search(current.nextTwo, path, iterator + 1);
         }
     }
 
